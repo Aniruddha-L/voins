@@ -120,6 +120,55 @@ class Access:
                         # print(decoded_input)
                     except Exception as e:
                         print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
+    
+    def getDisease(self, add, blk):
+        a = self.ref.find_one({"_id": 1}, {"abi": 1, "_id": 0})
+        abi = a['abi']
+        address = add
+        block = blk
+        contract = self.web3.eth.contract(address=address, abi=abi)
+        contract_block = self.web3.eth.get_block(block, full_transactions=True)
+        for tx in contract_block.transactions:
+            if tx.input and tx.input != "0x":  # Ensure there is input data
+                try:
+                    # Decode function call using ABI
+                    decoded_input = contract.decode_function_input(tx.input)
+                    function_name, function_args = decoded_input
+                    return function_args['dis']
+                except Exception as e:
+                    print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
+    def getHospital(self, add, blk):
+        a = self.ref.find_one({"_id": 1}, {"abi": 1, "_id": 0})
+        abi = a['abi']
+        address = add
+        block = blk
+        contract = self.web3.eth.contract(address=address, abi=abi)
+        contract_block = self.web3.eth.get_block(block, full_transactions=True)
+        for tx in contract_block.transactions:
+            if tx.input and tx.input != "0x":  # Ensure there is input data
+                try:
+                    # Decode function call using ABI
+                    decoded_input = contract.decode_function_input(tx.input)
+                    function_name, function_args = decoded_input
+                    return function_args['hospital']
+                except Exception as e:
+                    print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
+
+    def getInsurance(self, add, blk):
+        a = self.ref.find_one({"_id": 1}, {"abi": 1, "_id": 0})
+        abi = a['abi']
+        address = add
+        block = blk
+        contract = self.web3.eth.contract(address=address, abi=abi)
+        contract_block = self.web3.eth.get_block(block, full_transactions=True)
+        for tx in contract_block.transactions:
+            if tx.input and tx.input != "0x":  # Ensure there is input data
+                try:
+                    # Decode function call using ABI
+                    decoded_input = contract.decode_function_input(tx.input)
+                    function_name, function_args = decoded_input
+                    return function_args['ins']
+                except Exception as e:
+                    print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
 
 a = Access()
-print(a.getAllDisease())
