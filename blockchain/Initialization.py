@@ -41,7 +41,10 @@ class Initialization:
             }
             id += 1
             try:
-                coll.insert_one(data)
+                if len(coll.find_one({'name':i})) == 0:
+                    coll.insert_one(data)
+                else:
+                    coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
                 pass
         
@@ -71,7 +74,10 @@ class Initialization:
             }
             id += 1
             try:
-                coll.insert_one(data)
+                if len(coll.find_one({'name':i})) == 0:
+                    coll.insert_one(data)
+                else:
+                    coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
                 return None
 
@@ -121,7 +127,10 @@ class Initialization:
             }
             id += 1
             try:
-                coll.insert_one(data)
+                if len(coll.find_one({'name':i})) == 0:
+                    coll.insert_one(data)
+                else:
+                    coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
                 return None
 i = Initialization()
