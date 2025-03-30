@@ -27,6 +27,17 @@ class BERTKeywordExtractor:
         self.healthcare_terms = {
             'policy': ['policy', 'insurance', 'coverage', 'plan', 'premium', 'deductible', 'copay']
         }
+        
+        # Question and intent patterns
+        self.question_patterns = {
+            'terms_conditions': [
+                r'(?i)(?:what are|get|know|tell me about|want to know|find out about)\s+(?:the\s+)?terms\s+(?:and\s+)?conditions',
+                r'(?i)terms\s+(?:and\s+)?conditions',
+                r'(?i)policy\s+details',
+                r'(?i)what\s+(?:does|do)\s+(?:the\s+)?policy\s+cover',
+                r'(?i)coverage\s+details'
+            ]
+        }
 
     def preprocess_text(self, text):
         """Clean and normalize text."""
@@ -45,17 +56,25 @@ class BERTKeywordExtractor:
                 entities[entity_type] = ent.text
         
         # Extract name using Spacy entities or patterns
-        name_match = re.search(r'(?i)(?:this is|my name is|name[:\s]+)([A-Za-z\s]+)', text)
+        name_match = re.search(r'(?i)(?:this is|my name is|name[:\s]+|i am)[\s]+([A-Za-z\s]+?)(?:\s+and|\s+i\'m|\s+i am|\s+i|\.|$)', text)
         if name_match:
             entities['name'] = name_match.group(1).strip()
         
         # Extract hospital name
-        hospital_match = re.search(r'(?i)in\s+([A-Za-z\s]+hospital)', text)
-        if hospital_match:
-            entities['hospital'] = hospital_match.group(1).strip()
+        hospital_patterns = [
+            r'(?i)in\s+([A-Za-z\s]+hospital)',
+            r'(?i)at\s+([A-Za-z\s]+hospital)',
+            r'(?i)([A-Za-z\s]+hospital)'
+        ]
+        
+        for pattern in hospital_patterns:
+            hospital_match = re.search(pattern, text)
+            if hospital_match:
+                entities['hospital'] = hospital_match.group(1).strip()
+                break
         
         # Extract age (explicitly using regex)
-        age_patterns = [r'age[:|\s]*(\d+)', r'(?:i\'m|i am|my age is)\s+(\d+)[\s-]*years[\s-]*old', r'(\d+)[\s-]*yo']
+        age_patterns = [r'age[:|\s]*(\d+)', r'(?:i\'m|i am|my age is)\s+(\d+)[\s-]*years[\s-]*old', r'(\d+)[\s-]*yo', r'(?:i\'m|i am)\s+(\d+)']
         for pattern in age_patterns:
             matches = re.search(pattern, text, re.IGNORECASE)
             if matches:
@@ -68,23 +87,19 @@ class BERTKeywordExtractor:
         """Extract diseases and policy-related terms."""
         result = {}
 
-        # Extract known healthcare-related terms
-        text_lower = text.lower()
-        for category, terms in self.healthcare_terms.items():
-            for term in terms:
-                if term in text_lower:
-                    pattern = r'(?i)([^.!?]*\b' + term + r'[^.!?]*)'
-                    matches = re.findall(pattern, text)
-                    if matches:
-                        # Clean up the policy text
-                        policy_text = matches[0].strip()
-                        # Extract just the insurance company name if possible
-                        insurance_match = re.search(r'(?i)in\s+([A-Za-z\s]+insurance)', policy_text)
-                        if insurance_match:
-                            result[category] = insurance_match.group(1).strip()
-                        else:
-                            result[category] = policy_text
-                        break
+        # Extract policy information with improved patterns
+        policy_patterns = [
+            r'(?i)(?:my|have|get|the)\s+([A-Za-z\s]+?)\s+policy',
+            r'(?i)policy\s+(?:is|from|by|with)\s+([A-Za-z\s]+)',
+            r'(?i)insured\s+(?:with|by)\s+([A-Za-z\s]+)',
+            r'(?i)covered\s+(?:by|under|with)\s+([A-Za-z\s]+)'
+        ]
+        
+        for pattern in policy_patterns:
+            policy_match = re.search(pattern, text)
+            if policy_match:
+                result['policy'] = policy_match.group(1).strip()
+                break
         
         # Extract diseases using improved regex
         # Look for specific disease patterns with word boundaries
@@ -102,6 +117,19 @@ class BERTKeywordExtractor:
                 
         return result
 
+    def extract_query_intent(self, text):
+        """Extract the question or intent from the text."""
+        intents = {}
+        
+        # Check for terms and conditions questions
+        for intent_type, patterns in self.question_patterns.items():
+            for pattern in patterns:
+                if re.search(pattern, text):
+                    intents[intent_type] = True
+                    break
+        
+        return intents
+
     def extract_keywords(self, text, num_clusters=5):
         """Extract key sentences using BERT embeddings."""
         processed_text = self.preprocess_text(text)
@@ -109,7 +137,7 @@ class BERTKeywordExtractor:
         sentences = [s.strip() for s in sentences if s.strip()]
         
         if not sentences:
-            return {}, {}
+            return {}, {}, []
         
         # Get sentence embeddings
         embeddings = self.model.encode(sentences)
@@ -137,28 +165,49 @@ class BERTKeywordExtractor:
 
         # Extract healthcare-related terms
         domain_terms = self.extract_domain_specific_terms(processed_text)
+        
+        # Extract query intent
+        query_intent = self.extract_query_intent(processed_text)
 
         # Combine extracted information
         all_keywords = {**entities, **domain_terms}
         
-        return all_keywords, key_sentences
+        return all_keywords, query_intent, key_sentences
 
-    def process_documents(self, documents):
-        """Process multiple documents and extract healthcare information."""
-        results = []
-        for doc in documents:
-            keywords, _ = self.extract_keywords(doc)
-            results.append(keywords)
-        return results
+    def process_query(self, query):
+        """Process a user query and extract all relevant information."""
+        keywords, query_intent, key_sentences = self.extract_keywords(query)
+        
+        result = {
+            "extracted_info": keywords,
+            "query_intent": query_intent,
+            "key_sentences": key_sentences
+        }
+        
+        return result
 
 # Example usage
 if __name__ == "__main__":
     extractor = BERTKeywordExtractor()
     
-    sample_text = """my name is John Smith. my age is 45 years old. i am in Memorial Hospital on January 15 2023.
-    i am having Hypertension and Diabetes. my policy is HealthCare Plus"""
+    # Single string input
+    sample_query = "my name is John I'm 45 years old and I'm in kg hospital and I have the starlife policy I want to get the terms and conditions in this policy"
     
-    keywords, key_sentences = extractor.extract_keywords(sample_text)
-    print("Extracted Healthcare Information:")
-    for key, value in keywords.items():
-        print(f"{key}: {value}")
+    print("\nProcessing query:", sample_query)
+    result = extractor.process_query(sample_query)
+    
+    print("\nExtracted Information:")
+    for key, value in result["extracted_info"].items():
+        print(f"  {key}: {value}")
+        
+    print("\nQuery Intent:")
+    print(result['query_intent'])
+    if "terms_conditions" in result["query_intent"]:
+        print("  User is asking about policy terms and conditions")
+    else:
+        print("  No specific question about terms and conditions detected")
+        
+    print("\nKey Sentences:")
+    for i, sentence in enumerate(result["key_sentences"]):
+        print(f"  {i+1}. {sentence}")
+    print("-" * 80)
