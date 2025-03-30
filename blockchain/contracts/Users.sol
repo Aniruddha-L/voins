@@ -2,16 +2,16 @@
 pragma solidity 0.8.19;
 
 contract Users{
-    uint user;
+    string user;
     uint hospital; 
     uint insurance;
 
-    function setUser(uint User, uint Hospital, uint Insurance) public {
+    function setUser(string memory User, uint Hospital, uint Insurance) public {
         user = User;
         hospital = Hospital;
         insurance = Insurance;
     }
-    function getUser() public view returns(uint){
+    function getUser() public view returns(string memory){
         return user;
     }
     function getHospital() public view returns(uint){
