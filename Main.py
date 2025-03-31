@@ -13,5 +13,5 @@ def Reciever(sen):
     print(Access.getDisease(dis[0], dis[1]))
     print(Access.getUser(usr[0], usr[1]))
     print(Access.getHospital(hos[0], hos[1]))
-    print(Access.getInsurance(ins[0], ins[1]))
+    print(Access.getInsurance(dis[0], dis[1]))
     print(sen['task'])
