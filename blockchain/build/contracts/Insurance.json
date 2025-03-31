@@ -12,7 +12,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -31,7 +32,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -57,7 +59,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -83,7 +86,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getIns\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getInsS\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"insurance\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"insuranceSet\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"ins\",\"type\":\"string\"}],\"name\":\"setIns\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string[]\",\"name\":\"ins\",\"type\":\"string[]\"}],\"name\":\"setInsS\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Insurance.sol\":\"Insurance\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Insurance.sol\":{\"keccak256\":\"0x20ca3d83a1a5c05b4e35c5afa0ae7575746671f48dcf11151c863c28e04d63ef\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://ca41dff324dba166d93f926c13fd20d414696e12a82111a36abebe9f72b4cf7f\",\"dweb:/ipfs/QmTJx9BV3WxDfpRwmHEv1qkRxz16gWjBZh3KPGK61FFeuj\"]}},\"version\":1}",
@@ -8448,12 +8452,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xf99F9bfCb878D50ffc6690e137B4775560A7bA7D",
-      "transactionHash": "0xa15a0baea6ea22f1277152acfff608ec65bca81936ca4c72936ade1048d26494"
+      "address": "0xD041408B3b15464b923e25dD7c6866E526adDeaF",
+      "transactionHash": "0xd62b36b92dc03d2486b51464a574214b3dc55fef8a80d6883f9d4f3583bdcc17"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-03-30T17:17:19.769Z",
+  "updatedAt": "2025-03-30T17:52:30.989Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

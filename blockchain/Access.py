@@ -120,6 +120,8 @@ class Access:
                         # print(decoded_input)
                     except Exception as e:
                         print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
+            else:
+
     
     def getDisease(self, add, blk):
         a = self.ref.find_one({"_id": 1}, {"abi": 1, "_id": 0})
@@ -197,6 +199,33 @@ class Access:
         }
         coll.insert_one(data)
         return (contract_address, recipt.blockNumber)
+    
+    def setDisease(self,Dis):
+        coll = self.db['Disease']
+        a = self.ref.find_one({"_id": 1}, {"abi": 1,"bytecode":1, "_id": 0})
+        abi = a['abi']
+        # print(a)
+        byte = a['bytecode']
+        Insurance = self.web3.eth.contract(abi=abi, bytecode=byte)
+        tx_hash = Insurance.constructor().transact({'from': self.web3.eth.default_account})
+        tx_receipt = self.web3.eth.wait_for_transaction_receipt(tx_hash)
+        contract_address = tx_receipt.contractAddress
+        insurance_contract = self.web3.eth.contract(address=contract_address, abi=abi)
+        tx = insurance_contract.functions.setDisease(Dis).transact({'from': self.web3.eth.default_account})
+        recipt = self.web3.eth.wait_for_transaction_receipt(tx)
+        last = coll.find({}, {"_id":1}).sort("_id", -1).limit(1)
+        try:
+            last = last.next()["_id"]
+        except StopIteration:
+            last = 0
+        data = {
+                "_id":last+1,
+                'name':user,
+                'hospital':hBlk,
+                'Insurance':IBlk
+        }
+        coll.insert_one(data)
+        return (contract_address, recipt.blockNumber)
 
     def getUser(self, add, block):
         a = self.ref.find_one({"_id": 5}, {"abi": 1,"bytecode":1, "_id": 0})
@@ -218,6 +247,7 @@ class Access:
                 except Exception as e:
                     print(f"Transaction {tx.hash.hex()} contains non-decodable data: {e}")
 
+    
 if __name__=='__main__':
     a = Access()
     add, blk = a.setUser("abc", 1, 2)

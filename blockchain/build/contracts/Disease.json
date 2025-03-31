@@ -12,7 +12,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -38,7 +39,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"disease\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getDisease\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dis\",\"type\":\"string\"}],\"name\":\"setDisease\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Disease.sol\":\"Disease\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Disease.sol\":{\"keccak256\":\"0xbce8a11d5ebc112cb25936d59b955276e76fc20bc70fcf75eca4e95060542196\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c22b948d3695fe9657228f3554b41e6a581966df5e661e28858c0089695fddf2\",\"dweb:/ipfs/QmdZskR2m9jXqfjTvC1GafnjKgMZjeCyK9r9aQHtFY5jf6\"]}},\"version\":1}",
@@ -5393,12 +5395,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x3A855E0D3087D0091beFeB6fdeBACAB5Da9084E2",
-      "transactionHash": "0x525f44b18e60dba90effff1d0be3f4f9d748ffdb18fac1dfd0426f5ba2cabd1d"
+      "address": "0x5257ab2DDfACc9b47075b4f5e94aF4382b3815C4",
+      "transactionHash": "0x109f3b2a4e1c916bdfd13496edba9045f8f995766eafceece3105b686a3a036e"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-03-30T17:17:19.761Z",
+  "updatedAt": "2025-03-30T17:52:30.688Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -11,9 +11,10 @@ class Initialization:
         self.db = self.mongo['AI']
         self.ref = self.db['References']
         self.web3.eth.default_account = self.web3.eth.accounts[0]
-        # self.Insurance()
-        # self.Disease()
         self.References()
+        self.Insurance()
+        self.Disease()
+        self.Hospital()
 
     def Disease(self):
         coll = self.db['Disease']
@@ -41,12 +42,12 @@ class Initialization:
             }
             id += 1
             try:
-                if len(coll.find_one({'name':i})) == 0:
+                if coll.find_one({'name':i}) is None :
                     coll.insert_one(data)
                 else:
                     coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
-                pass
+                print(Exception        )
         
     def Insurance(self):
         coll = self.db['Insurance']
@@ -74,12 +75,12 @@ class Initialization:
             }
             id += 1
             try:
-                if len(coll.find_one({'name':i})) == 0:
+                if coll.find_one({'name':i}) is None:
                     coll.insert_one(data)
                 else:
                     coll.update_one({'name':i}, {"$set":{"add":contract_address}})
-            except Exception:
-                return None
+            except Exception as e:
+                print(e)
 
     def References(self):
         lst = ['Disease', 'Hospitals', 'Insurance', 'Terms', 'Users']
@@ -98,7 +99,7 @@ class Initialization:
                 }
                 self.ref.insert_one(data)
             except Exception:
-                return None
+                return print(Exception)
             id += 1
 
     def Hospital(self):
@@ -127,7 +128,7 @@ class Initialization:
             }
             id += 1
             try:
-                if len(coll.find_one({'name':i})) == 0:
+                if coll.find_one({'name':i}) is None:
                     coll.insert_one(data)
                 else:
                     coll.update_one({'name':i}, {"$set":{"add":contract_address}})
@@ -135,5 +136,5 @@ class Initialization:
                 return None
 i = Initialization()
 i.Insurance()
-i.Disease()
-i.Hospital()
+# i.Disease()
+# i.Hospital()

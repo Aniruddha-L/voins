@@ -35,7 +35,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -48,7 +49,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -61,7 +63,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getHospital\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getIns\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getUser\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"User\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"Hospital\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"Insurance\",\"type\":\"uint256\"}],\"name\":\"setUser\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Users.sol\":\"Users\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Users.sol\":{\"keccak256\":\"0xebd8e8f16c90380d33eb835f35de7e9ae968c75ecccbea4609ccef439b32639e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5e26b29faa2bb1950d5410c320bafb5a93da4ad469d94163b48a5ab9ddf05602\",\"dweb:/ipfs/QmVBmqHu1GghJrrYhmKSJndVYCCJssAQti4iN83RdrGH4F\"]}},\"version\":1}",
@@ -5665,15 +5668,15 @@
     "absolutePath": "project:/contracts/Users.sol",
     "exportedSymbols": {
       "Users": [
-        213
+        229
       ]
     },
-    "id": 214,
+    "id": 230,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 160,
+        "id": 176,
         "literals": [
           "solidity",
           "0.8",
@@ -5689,9 +5692,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 213,
+        "id": 229,
         "linearizedBaseContracts": [
-          213
+          229
         ],
         "name": "Users",
         "nameLocation": "70:5:4",
@@ -5699,12 +5702,12 @@
         "nodes": [
           {
             "constant": false,
-            "id": 162,
+            "id": 178,
             "mutability": "mutable",
             "name": "user",
             "nameLocation": "89:4:4",
             "nodeType": "VariableDeclaration",
-            "scope": 213,
+            "scope": 229,
             "src": "82:11:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -5713,7 +5716,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 161,
+              "id": 177,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "82:6:4",
@@ -5726,12 +5729,12 @@
           },
           {
             "constant": false,
-            "id": 164,
+            "id": 180,
             "mutability": "mutable",
             "name": "hospital",
             "nameLocation": "105:8:4",
             "nodeType": "VariableDeclaration",
-            "scope": 213,
+            "scope": 229,
             "src": "100:13:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -5740,7 +5743,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 163,
+              "id": 179,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
               "src": "100:4:4",
@@ -5753,12 +5756,12 @@
           },
           {
             "constant": false,
-            "id": 166,
+            "id": 182,
             "mutability": "mutable",
             "name": "insurance",
             "nameLocation": "126:9:4",
             "nodeType": "VariableDeclaration",
-            "scope": 213,
+            "scope": 229,
             "src": "121:14:4",
             "stateVariable": true,
             "storageLocation": "default",
@@ -5767,7 +5770,7 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 165,
+              "id": 181,
               "name": "uint",
               "nodeType": "ElementaryTypeName",
               "src": "121:4:4",
@@ -5780,23 +5783,23 @@
           },
           {
             "body": {
-              "id": 187,
+              "id": 203,
               "nodeType": "Block",
               "src": "219:92:4",
               "statements": [
                 {
                   "expression": {
-                    "id": 177,
+                    "id": 193,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 175,
+                      "id": 191,
                       "name": "user",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 162,
+                      "referencedDeclaration": 178,
                       "src": "230:4:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
@@ -5806,11 +5809,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 176,
+                      "id": 192,
                       "name": "User",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 168,
+                      "referencedDeclaration": 184,
                       "src": "237:4:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -5823,23 +5826,23 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 178,
+                  "id": 194,
                   "nodeType": "ExpressionStatement",
                   "src": "230:11:4"
                 },
                 {
                   "expression": {
-                    "id": 181,
+                    "id": 197,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 179,
+                      "id": 195,
                       "name": "hospital",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 164,
+                      "referencedDeclaration": 180,
                       "src": "252:8:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5849,11 +5852,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 180,
+                      "id": 196,
                       "name": "Hospital",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 170,
+                      "referencedDeclaration": 186,
                       "src": "263:8:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5866,23 +5869,23 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 182,
+                  "id": 198,
                   "nodeType": "ExpressionStatement",
                   "src": "252:19:4"
                 },
                 {
                   "expression": {
-                    "id": 185,
+                    "id": 201,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 183,
+                      "id": 199,
                       "name": "insurance",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 166,
+                      "referencedDeclaration": 182,
                       "src": "282:9:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5892,11 +5895,11 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 184,
+                      "id": 200,
                       "name": "Insurance",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 172,
+                      "referencedDeclaration": 188,
                       "src": "294:9:4",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5909,14 +5912,14 @@
                       "typeString": "uint256"
                     }
                   },
-                  "id": 186,
+                  "id": 202,
                   "nodeType": "ExpressionStatement",
                   "src": "282:21:4"
                 }
               ]
             },
             "functionSelector": "ebd8c4c8",
-            "id": 188,
+            "id": 204,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -5924,17 +5927,17 @@
             "nameLocation": "153:7:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 173,
+              "id": 189,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 168,
+                  "id": 184,
                   "mutability": "mutable",
                   "name": "User",
                   "nameLocation": "175:4:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 188,
+                  "scope": 204,
                   "src": "161:18:4",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -5943,7 +5946,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 167,
+                    "id": 183,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "161:6:4",
@@ -5956,12 +5959,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 170,
+                  "id": 186,
                   "mutability": "mutable",
                   "name": "Hospital",
                   "nameLocation": "186:8:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 188,
+                  "scope": 204,
                   "src": "181:13:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -5970,7 +5973,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 169,
+                    "id": 185,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "181:4:4",
@@ -5983,12 +5986,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 172,
+                  "id": 188,
                   "mutability": "mutable",
                   "name": "Insurance",
                   "nameLocation": "201:9:4",
                   "nodeType": "VariableDeclaration",
-                  "scope": 188,
+                  "scope": 204,
                   "src": "196:14:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -5997,7 +6000,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 171,
+                    "id": 187,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "196:4:4",
@@ -6012,12 +6015,12 @@
               "src": "160:51:4"
             },
             "returnParameters": {
-              "id": 174,
+              "id": 190,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "219:0:4"
             },
-            "scope": 213,
+            "scope": 229,
             "src": "144:167:4",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -6025,32 +6028,32 @@
           },
           {
             "body": {
-              "id": 195,
+              "id": 211,
               "nodeType": "Block",
               "src": "370:30:4",
               "statements": [
                 {
                   "expression": {
-                    "id": 193,
+                    "id": 209,
                     "name": "user",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 162,
+                    "referencedDeclaration": 178,
                     "src": "388:4:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "functionReturnParameters": 192,
-                  "id": 194,
+                  "functionReturnParameters": 208,
+                  "id": 210,
                   "nodeType": "Return",
                   "src": "381:11:4"
                 }
               ]
             },
             "functionSelector": "832880e7",
-            "id": 196,
+            "id": 212,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -6058,170 +6061,10 @@
             "nameLocation": "326:7:4",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 189,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "333:2:4"
-            },
-            "returnParameters": {
-              "id": 192,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 191,
-                  "mutability": "mutable",
-                  "name": "",
-                  "nameLocation": "-1:-1:-1",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 196,
-                  "src": "356:13:4",
-                  "stateVariable": false,
-                  "storageLocation": "memory",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_memory_ptr",
-                    "typeString": "string"
-                  },
-                  "typeName": {
-                    "id": 190,
-                    "name": "string",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "356:6:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_storage_ptr",
-                      "typeString": "string"
-                    }
-                  },
-                  "visibility": "internal"
-                }
-              ],
-              "src": "355:15:4"
-            },
-            "scope": 213,
-            "src": "317:83:4",
-            "stateMutability": "view",
-            "virtual": false,
-            "visibility": "public"
-          },
-          {
-            "body": {
-              "id": 203,
-              "nodeType": "Block",
-              "src": "454:34:4",
-              "statements": [
-                {
-                  "expression": {
-                    "id": 201,
-                    "name": "hospital",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 164,
-                    "src": "472:8:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "functionReturnParameters": 200,
-                  "id": 202,
-                  "nodeType": "Return",
-                  "src": "465:15:4"
-                }
-              ]
-            },
-            "functionSelector": "18769d46",
-            "id": 204,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "getHospital",
-            "nameLocation": "415:11:4",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 197,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "426:2:4"
-            },
-            "returnParameters": {
-              "id": 200,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 199,
-                  "mutability": "mutable",
-                  "name": "",
-                  "nameLocation": "-1:-1:-1",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 204,
-                  "src": "449:4:4",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 198,
-                    "name": "uint",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "449:4:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "visibility": "internal"
-                }
-              ],
-              "src": "448:6:4"
-            },
-            "scope": 213,
-            "src": "406:82:4",
-            "stateMutability": "view",
-            "virtual": false,
-            "visibility": "public"
-          },
-          {
-            "body": {
-              "id": 211,
-              "nodeType": "Block",
-              "src": "537:35:4",
-              "statements": [
-                {
-                  "expression": {
-                    "id": 209,
-                    "name": "insurance",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 166,
-                    "src": "555:9:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "functionReturnParameters": 208,
-                  "id": 210,
-                  "nodeType": "Return",
-                  "src": "548:16:4"
-                }
-              ]
-            },
-            "functionSelector": "ae7ea0ed",
-            "id": 212,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "getIns",
-            "nameLocation": "503:6:4",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
               "id": 205,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "509:2:4"
+              "src": "333:2:4"
             },
             "returnParameters": {
               "id": 208,
@@ -6235,6 +6078,166 @@
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
                   "scope": 212,
+                  "src": "356:13:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 206,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "356:6:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "355:15:4"
+            },
+            "scope": 229,
+            "src": "317:83:4",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 219,
+              "nodeType": "Block",
+              "src": "454:34:4",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 217,
+                    "name": "hospital",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 180,
+                    "src": "472:8:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 216,
+                  "id": 218,
+                  "nodeType": "Return",
+                  "src": "465:15:4"
+                }
+              ]
+            },
+            "functionSelector": "18769d46",
+            "id": 220,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getHospital",
+            "nameLocation": "415:11:4",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 213,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "426:2:4"
+            },
+            "returnParameters": {
+              "id": 216,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 215,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 220,
+                  "src": "449:4:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 214,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "449:4:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "448:6:4"
+            },
+            "scope": 229,
+            "src": "406:82:4",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 227,
+              "nodeType": "Block",
+              "src": "537:35:4",
+              "statements": [
+                {
+                  "expression": {
+                    "id": 225,
+                    "name": "insurance",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 182,
+                    "src": "555:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 224,
+                  "id": 226,
+                  "nodeType": "Return",
+                  "src": "548:16:4"
+                }
+              ]
+            },
+            "functionSelector": "ae7ea0ed",
+            "id": 228,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getIns",
+            "nameLocation": "503:6:4",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 221,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "509:2:4"
+            },
+            "returnParameters": {
+              "id": 224,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 223,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 228,
                   "src": "532:4:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -6243,7 +6246,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 206,
+                    "id": 222,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "532:4:4",
@@ -6257,14 +6260,14 @@
               ],
               "src": "531:6:4"
             },
-            "scope": 213,
+            "scope": 229,
             "src": "494:78:4",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 214,
+        "scope": 230,
         "src": "61:516:4",
         "usedErrors": []
       }
@@ -6279,12 +6282,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x28c0D8FDf694bAA5FF88fCC1557C066bF2B7248b",
-      "transactionHash": "0x22e706d68c8f7bfd381b24ccd5a3b878d40c0240c879d5bf629f9d7531be8d82"
+      "address": "0x9ea6368bBd47Ae2d898a0Fba0a8fff26F58ff6C5",
+      "transactionHash": "0x1b4bdb46b777c4163b052e2f65b63e145de044a0a0511ad5e354490a0dd57d01"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-03-30T17:17:19.774Z",
+  "updatedAt": "2025-03-30T17:52:31.203Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

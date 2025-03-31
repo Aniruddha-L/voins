@@ -25,7 +25,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -51,7 +52,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string[]\",\"name\":\"hospital\",\"type\":\"string[]\"}],\"name\":\"addHospital\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getHospital\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getHospitals\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"hospital\",\"type\":\"string\"}],\"name\":\"setHospital\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Hospitals.sol\":\"Hospitals\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Hospitals.sol\":{\"keccak256\":\"0x6f80ce4dfa908341a34f5677a7220c36574fb0ed2754b4539d461acd1c612815\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://36bf43ab9785a81bdd569904737e63b1fefb4600a176d3dd67aba61ee8c15265\",\"dweb:/ipfs/QmQ2A4sUBjAGbmbspJeTygr6996BBdbnLi6ZfCm5Jj3gJX\"]}},\"version\":1}",
@@ -8649,12 +8651,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x54341858a76d90583946Ea46886558Db6e943850",
-      "transactionHash": "0x80592f179e936cc8f8ce70699f8568beeefed0f1c9019215ed598007d003f431"
+      "address": "0x4EC87411B74C469F001C23a8c31F3D95E5773371",
+      "transactionHash": "0xa15ba7786b5cd27acb84d7d6cbdad904fdc388bb16f11eeb98a8452e9c680ed6"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-03-30T17:17:19.765Z",
+  "updatedAt": "2025-03-30T17:52:30.830Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
