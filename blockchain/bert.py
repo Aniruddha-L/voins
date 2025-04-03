@@ -213,9 +213,9 @@ class BERTKeywordExtractor:
         
         return result
 
+extractor = BERTKeywordExtractor()
 # Example usage
 if __name__ == "__main__":
-    extractor = BERTKeywordExtractor()
     
     # Single string input
     sample_query = """My name is William. I am 57 years old . I am in Kmch Hospital. 
@@ -231,50 +231,50 @@ Can you tell me the terms and conditions"""
         print(f"  {key}: {value}")
 
 
-    true_values = {
-    "hospital": "kg hospital",
-    "age": "45",
-    "policy": "starlife",
-    "name": "John",
-    #"disease": ["diabetes", "hypertension"]
-}
+#     true_values = {
+#     "hospital": "kg hospital",
+#     "age": "45",
+#     "policy": "starlife",
+#     "name": "John",
+#     #"disease": ["diabetes", "hypertension"]
+# }
 
-# Use the model to predict
-predicted_values = extractor.extract_entities(sample_query)  # Use the method from the class instance
+# # Use the model to predict
+# predicted_values = extractor.extract_entities(sample_query)  # Use the method from the class instance
 
-# Compare predictions with ground truth (use the earlier code)
-def evaluate_extraction(true_values, keywords):
-    """
-    Evaluate the accuracy of the extracted information by comparing
-    the predicted values with the true values.
-    """
-    correct = 0
-    total = len(true_values)
+# # Compare predictions with ground truth (use the earlier code)
+# def evaluate_extraction(true_values, keywords):
+#     """
+#     Evaluate the accuracy of the extracted information by comparing
+#     the predicted values with the true values.
+#     """
+#     correct = 0
+#     total = len(true_values)
     
-    for key, true_value in true_values.items():
-        if key in predicted_values:
-            if isinstance(true_value, list):
-                # Compare lists (e.g., diseases)
-                if set(true_value) == set(predicted_values[key]):
-                    correct += 1
-            else:
-                # Compare single values
-                if true_value == predicted_values[key]:
-                    correct += 1
+#     for key, true_value in true_values.items():
+#         if key in predicted_values:
+#             if isinstance(true_value, list):
+#                 # Compare lists (e.g., diseases)
+#                 if set(true_value) == set(predicted_values[key]):
+#                     correct += 1
+#             else:
+#                 # Compare single values
+#                 if true_value == predicted_values[key]:
+#                     correct += 1
     
-    return (correct / total) * 100 if total > 0 else 0
+#     return (correct / total) * 100 if total > 0 else 0
 
-accuracy = evaluate_extraction(true_values, result["extracted_info"])
-print(f"Extraction accuracy: {accuracy:.2f}%")
+# accuracy = evaluate_extraction(true_values, result["extracted_info"])
+# print(f"Extraction accuracy: {accuracy:.2f}%")
 
-print("\nQuery Intent:")
-print(result['query_intent'])
-if "terms_conditions" in result["query_intent"]:
-    print("  User is asking about policy terms and conditions")
-else:
-    print("  No specific question about terms and conditions detected")
+# print("\nQuery Intent:")
+# print(result['query_intent'])
+# if "terms_conditions" in result["query_intent"]:
+#     print("  User is asking about policy terms and conditions")
+# else:
+#     print("  No specific question about terms and conditions detected")
         
-print("\nKey Sentences:")
-for i, sentence in enumerate(result["key_sentences"]):
-    print(f"  {i+1}. {sentence}")
-print("-" * 80)
+# print("\nKey Sentences:")
+# for i, sentence in enumerate(result["key_sentences"]):
+#     print(f"  {i+1}. {sentence}")
+# print("-" * 80)
