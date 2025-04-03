@@ -25,8 +25,31 @@ class BERTKeywordExtractor:
         
         # Additional healthcare terms dictionary
         self.healthcare_terms = {
-            'policy': ['policy', 'insurance', 'coverage', 'plan', 'premium', 'deductible', 'copay']
+            'policy': [
+                'policy', 'insurance', 'coverage', 'plan', 'premium', 
+                'deductible', 'copay', 'benefits', 'claim', 'reimbursement',
+                'co-insurance', 'exclusions', 'network', 'provider', 'pre-authorization',
+                'waiting period', 'policyholder', 'insured', 'sum assured', 'out-of-pocket',
+                'renewal', 'endorsement', 'claim process', 'lapse', 'grace period'
+            ]
         }
+
+        self.policy_patterns = [
+            r'(?i)(?:my|have|get|the)\s+([A-Za-z\s]+?)\s+policy',
+            r'(?i)policy\s+(?:is|from|by|with)\s+([A-Za-z\s]+)',
+            r'(?i)insured\s+(?:with|by)\s+([A-Za-z\s]+)',
+            r'(?i)covered\s+(?:by|under|with)\s+([A-Za-z\s]+)',
+            r'(?i)premium\s+(?:amount|cost|details|of)\s+(\d+\s?\w*)',
+            r'(?i)claim\s+(?:process|procedure|details)',
+            r'(?i)what\s+(?:does|do)\s+(?:the\s+)?policy\s+cover',
+            r'(?i)coverage\s+details',
+            r'(?i)policy\s+exclusions',
+            r'(?i)what\s+is\s+the\s+waiting\s+period',
+            r'(?i)out-of-pocket\s+expenses',
+            r'(?i)how\s+to\s+renew\s+the\s+policy',
+            r'(?i)grace\s+period\s+for\s+renewal'
+        ]
+
         
         # Question and intent patterns
         self.question_patterns = {
@@ -103,19 +126,23 @@ class BERTKeywordExtractor:
         
         # Extract diseases using improved regex
         # Look for specific disease patterns with word boundaries
-        disease_patterns = [
-            r'(?i)(?:i am having|i have|having|have|diagnosed with|suffering from)\s+([A-Za-z\s]+(?:diabetes|disease|syndrome|disorder|infection|illness|condition|cancer|asthma)\b)',
-            r'(?i)\b((?:type\s+[12]|gestational)\s+diabetes)\b',
-            r'(?i)\b([A-Za-z\s]+(?:disease|syndrome|disorder|infection|illness|condition))\b'
-        ]
+
         
+        disease_patterns = [
+            #r'(?i)(?:i am having|i have|having|have|diagnosed with|suffering from|been diagnosed with)\s+([A-Za-z\s-]+(?:diabetes|disease|syndrome|disorder|infection|illness|condition|cancer|asthma|hypertension|malaria|flu|fever|covid|tuberculosis|migraine|stroke|pneumonia|arthritis|depression|anxiety|obesity|cholera|dengue|eczema|hepatitis|leukemia|lymphoma|psoriasis|sepsis|ulcer|autism|paralysis|thyroid))\b',
+            r'(?i)\b((?:type\s+[12]|gestational)\s+diabetes)\b',
+            r'(?i)\b([A-Za-z\s-]+(?:disease|syndrome|disorder|infection|illness|condition|cancer))\b',
+            r'(?i)\b(hypertension|diabetes|asthma|malaria|flu|fever|covid|tuberculosis|migraine|stroke|pneumonia|arthritis|depression|anxiety|obesity|cholera|dengue|eczema|hepatitis|leukemia|lymphoma|psoriasis|sepsis|ulcer|autism|paralysis|thyroid)\b'
+        ]
+
         for pattern in disease_patterns:
             matches = re.search(pattern, text)
             if matches:
                 result['disease'] = matches.group(1).strip()
                 break
-                
+
         return result
+
 
     def extract_query_intent(self, text):
         """Extract the question or intent from the text."""
@@ -191,7 +218,10 @@ if __name__ == "__main__":
     extractor = BERTKeywordExtractor()
     
     # Single string input
-    sample_query = "my name is John I'm 45 years old and I'm in kg hospital and I have the starlife policy I want to get the terms and conditions in this policy"
+    sample_query = """My name is William. I am 57 years old . I am in Kmch Hospital. 
+I have been diagnosed with flu. My policy is Starlife.
+Can you tell me the terms and conditions"""
+    
     
     print("\nProcessing query:", sample_query)
     result = extractor.process_query(sample_query)
@@ -199,15 +229,52 @@ if __name__ == "__main__":
     print("\nExtracted Information:")
     for key, value in result["extracted_info"].items():
         print(f"  {key}: {value}")
+
+
+    true_values = {
+    "hospital": "kg hospital",
+    "age": "45",
+    "policy": "starlife",
+    "name": "John",
+    #"disease": ["diabetes", "hypertension"]
+}
+
+# Use the model to predict
+predicted_values = extractor.extract_entities(sample_query)  # Use the method from the class instance
+
+# Compare predictions with ground truth (use the earlier code)
+def evaluate_extraction(true_values, keywords):
+    """
+    Evaluate the accuracy of the extracted information by comparing
+    the predicted values with the true values.
+    """
+    correct = 0
+    total = len(true_values)
+    
+    for key, true_value in true_values.items():
+        if key in predicted_values:
+            if isinstance(true_value, list):
+                # Compare lists (e.g., diseases)
+                if set(true_value) == set(predicted_values[key]):
+                    correct += 1
+            else:
+                # Compare single values
+                if true_value == predicted_values[key]:
+                    correct += 1
+    
+    return (correct / total) * 100 if total > 0 else 0
+
+accuracy = evaluate_extraction(true_values, result["extracted_info"])
+print(f"Extraction accuracy: {accuracy:.2f}%")
+
+print("\nQuery Intent:")
+print(result['query_intent'])
+if "terms_conditions" in result["query_intent"]:
+    print("  User is asking about policy terms and conditions")
+else:
+    print("  No specific question about terms and conditions detected")
         
-    print("\nQuery Intent:")
-    print(result['query_intent'])
-    if "terms_conditions" in result["query_intent"]:
-        print("  User is asking about policy terms and conditions")
-    else:
-        print("  No specific question about terms and conditions detected")
-        
-    print("\nKey Sentences:")
-    for i, sentence in enumerate(result["key_sentences"]):
-        print(f"  {i+1}. {sentence}")
-    print("-" * 80)
+print("\nKey Sentences:")
+for i, sentence in enumerate(result["key_sentences"]):
+    print(f"  {i+1}. {sentence}")
+print("-" * 80)
