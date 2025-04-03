@@ -1,2 +1,5 @@
 __pycache__
 .vscode
+recorded_audio.wav 
+blockchain/output.wav
+blockchain/trail.py

@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from web3 import Web3
 import json
-
+from Loader import Delete
 class Initialization:
     def __init__(self):
         self.mongoUrl = 'mongodb://localhost:27017/'
@@ -11,6 +11,7 @@ class Initialization:
         self.db = self.mongo['AI']
         self.ref = self.db['References']
         self.web3.eth.default_account = self.web3.eth.accounts[0]
+        Delete(self.db)
         self.References()
         self.Insurance()
         self.Disease()
@@ -30,7 +31,7 @@ class Initialization:
         insurance_contract = self.web3.eth.contract(address=contract_address, abi=abi)
 
         for i in lst:
-            print(contract_address)
+            # print(contract_address)
             tx = insurance_contract.functions.setDisease(i).transact({'from': self.web3.eth.default_account})
             recipt = self.web3.eth.wait_for_transaction_receipt(tx)
 
@@ -47,7 +48,7 @@ class Initialization:
                 else:
                     coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
-                print(Exception        )
+                print(Exception)
         
     def Insurance(self):
         coll = self.db['Insurance']
@@ -63,7 +64,7 @@ class Initialization:
         insurance_contract = self.web3.eth.contract(address=contract_address, abi=abi)
 
         for i in lst:
-            print(contract_address)
+            # print(contract_address)
             tx = insurance_contract.functions.setIns(i).transact({'from': self.web3.eth.default_account})
             recipt = self.web3.eth.wait_for_transaction_receipt(tx)
 
@@ -116,7 +117,7 @@ class Initialization:
         insurance_contract = self.web3.eth.contract(address=contract_address, abi=abi)
 
         for i in lst:
-            print(contract_address)
+            # print(contract_address)
             tx = insurance_contract.functions.setHospital(i).transact({'from': self.web3.eth.default_account})
             recipt = self.web3.eth.wait_for_transaction_receipt(tx)
 
@@ -134,7 +135,8 @@ class Initialization:
                     coll.update_one({'name':i}, {"$set":{"add":contract_address}})
             except Exception:
                 return None
-i = Initialization()
-i.Insurance()
-# i.Disease()
-# i.Hospital()
+if __name__ == '__main__':
+    i = Initialization()
+    i.Insurance()
+    i.Disease()
+    i.Hospital()
