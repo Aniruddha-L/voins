@@ -19,10 +19,10 @@ def tts(text):
     s = gTTS(text, lang='en')
     s.save('output.wav')
     print('saved')
-    # os.system(f'ffmpeg output.wav')
+    os.system(f'ffmpeg output.wav')
 
 voice = stt()
 sen = main(voice)
 
-Reciever(sen)
-tts(sen['task'])
+string  = Reciever(sen)
+tts(string)

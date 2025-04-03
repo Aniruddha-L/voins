@@ -102,6 +102,18 @@ class Initialization:
             except Exception:
                 return print(Exception)
             id += 1
+        coll = self.db['Terms']
+        data = {
+            "_id":1,
+            "data":"""Health insurance policies come with specific terms and conditions that outline coverage, exclusions, and claim processes. Typically, the policy covers hospitalization, surgeries, diagnostic tests, and medications, while exclusions may include cosmetic procedures, self-inflicted injuries, and pre-existing conditions within a waiting period. Waiting periods generally range from 30 days for new policies to several years for pre-existing conditions and maternity benefits. 
+            Policyholders must pay premiums on time to maintain coverage, and claims can be processed through cashless hospital networks or reimbursement. 
+            Some policies require co-payment or deductibles, meaning the insured must bear part of the expenses. 
+            Additionally, insurers may offer no-claim bonuses in the form of discounts or increased coverage for claim-free years. 
+            Policies can be canceled within a free-look period, and refunds depend on the insurer’s terms. 
+            Understanding these conditions helps in selecting the right policy and avoiding claim disputes."""
+        }
+
+        coll.insert_one(data)
 
     def Hospital(self):
         coll = self.db['Hospital']

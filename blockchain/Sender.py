@@ -1,13 +1,12 @@
 import bert as b
 from Access import Access
 from Initialization import Initialization
-from Recorder import record
 import os
-from Reciever import Reciever
+from pymongo import MongoClient
 
 extractor = b.BERTKeywordExtractor()
 def main(string):
-    keywords, key_sentences, se = extractor.extract_keywords(string)
+    keywords, key_sentences = extractor.extract_keywords(string)
     Acces = Access()
     forward = {}
     os.system('cd blockchain')
@@ -33,18 +32,20 @@ def main(string):
             forward['disease'].append((i, Acces.getADisease(disName = i)))
     else:
         forward["disease"] = Acces.getADisease(disName = disease)
-    print(forward['disease'])
+    # print(forward['disease'])
     forward["insurance"] = Acces.getAIns(policy)
     forward['hospital'] = Acces.getAHospital(hos)
     forward['User'] = Acces.setUser(user, forward['hospital'][1], forward['insurance'][1])
     # print(forward)
     # if task:
-
-    forward['task'] = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
-    in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
+    mongo = MongoClient('mongodb://localhost:27017/')
+    db = mongo['AI']
     
-    # Reciever(forward)
+    coll = db['Terms']
+    data=coll.find_one({"_id":1},{"data":1})
+    # print(data['data'])
+    forward['task'] = data['data']
+    # print(forward['task'])
     return forward
 if __name__ == '__main__':
     

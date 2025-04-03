@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import re
 import spacy
-import scispacy
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
@@ -25,41 +24,7 @@ class BERTKeywordExtractor:
         
         # Additional healthcare terms dictionary
         self.healthcare_terms = {
-            'policy': [
-                'policy', 'insurance', 'coverage', 'plan', 'premium', 
-                'deductible', 'copay', 'benefits', 'claim', 'reimbursement',
-                'co-insurance', 'exclusions', 'network', 'provider', 'pre-authorization',
-                'waiting period', 'policyholder', 'insured', 'sum assured', 'out-of-pocket',
-                'renewal', 'endorsement', 'claim process', 'lapse', 'grace period'
-            ]
-        }
-
-        self.policy_patterns = [
-            r'(?i)(?:my|have|get|the)\s+([A-Za-z\s]+?)\s+policy',
-            r'(?i)policy\s+(?:is|from|by|with)\s+([A-Za-z\s]+)',
-            r'(?i)insured\s+(?:with|by)\s+([A-Za-z\s]+)',
-            r'(?i)covered\s+(?:by|under|with)\s+([A-Za-z\s]+)',
-            r'(?i)premium\s+(?:amount|cost|details|of)\s+(\d+\s?\w*)',
-            r'(?i)claim\s+(?:process|procedure|details)',
-            r'(?i)what\s+(?:does|do)\s+(?:the\s+)?policy\s+cover',
-            r'(?i)coverage\s+details',
-            r'(?i)policy\s+exclusions',
-            r'(?i)what\s+is\s+the\s+waiting\s+period',
-            r'(?i)out-of-pocket\s+expenses',
-            r'(?i)how\s+to\s+renew\s+the\s+policy',
-            r'(?i)grace\s+period\s+for\s+renewal'
-        ]
-
-        
-        # Question and intent patterns
-        self.question_patterns = {
-            'terms_conditions': [
-                r'(?i)(?:what are|get|know|tell me about|want to know|find out about)\s+(?:the\s+)?terms\s+(?:and\s+)?conditions',
-                r'(?i)terms\s+(?:and\s+)?conditions',
-                r'(?i)policy\s+details',
-                r'(?i)what\s+(?:does|do)\s+(?:the\s+)?policy\s+cover',
-                r'(?i)coverage\s+details'
-            ]
+            'policy': ['policy', 'insurance', 'coverage', 'plan', 'premium', 'deductible', 'copay']
         }
 
     def preprocess_text(self, text):
@@ -79,25 +44,17 @@ class BERTKeywordExtractor:
                 entities[entity_type] = ent.text
         
         # Extract name using Spacy entities or patterns
-        name_match = re.search(r'(?i)(?:this is|my name is|name[:\s]+|i am)[\s]+([A-Za-z\s]+?)(?:\s+and|\s+i\'m|\s+i am|\s+i|\.|$)', text)
+        name_match = re.search(r'(?i)(?:this is|my name is|name[:\s]+)([A-Za-z\s]+)', text)
         if name_match:
             entities['name'] = name_match.group(1).strip()
         
         # Extract hospital name
-        hospital_patterns = [
-            r'(?i)in\s+([A-Za-z\s]+hospital)',
-            r'(?i)at\s+([A-Za-z\s]+hospital)',
-            r'(?i)([A-Za-z\s]+hospital)'
-        ]
-        
-        for pattern in hospital_patterns:
-            hospital_match = re.search(pattern, text)
-            if hospital_match:
-                entities['hospital'] = hospital_match.group(1).strip()
-                break
+        hospital_match = re.search(r'(?i)in\s+([A-Za-z\s]+hospital)', text)
+        if hospital_match:
+            entities['hospital'] = hospital_match.group(1).strip()
         
         # Extract age (explicitly using regex)
-        age_patterns = [r'age[:|\s]*(\d+)', r'(?:i\'m|i am|my age is)\s+(\d+)[\s-]*years[\s-]*old', r'(\d+)[\s-]*yo', r'(?:i\'m|i am)\s+(\d+)']
+        age_patterns = [r'age[:|\s]*(\d+)', r'(?:i\'m|i am|my age is)\s+(\d+)[\s-]*years[\s-]*old', r'(\d+)[\s-]*yo']
         for pattern in age_patterns:
             matches = re.search(pattern, text, re.IGNORECASE)
             if matches:
@@ -110,52 +67,39 @@ class BERTKeywordExtractor:
         """Extract diseases and policy-related terms."""
         result = {}
 
-        # Extract policy information with improved patterns
-        policy_patterns = [
-            r'(?i)(?:my|have|get|the)\s+([A-Za-z\s]+?)\s+policy',
-            r'(?i)policy\s+(?:is|from|by|with)\s+([A-Za-z\s]+)',
-            r'(?i)insured\s+(?:with|by)\s+([A-Za-z\s]+)',
-            r'(?i)covered\s+(?:by|under|with)\s+([A-Za-z\s]+)'
-        ]
-        
-        for pattern in policy_patterns:
-            policy_match = re.search(pattern, text)
-            if policy_match:
-                result['policy'] = policy_match.group(1).strip()
-                break
+        # Extract known healthcare-related terms
+        text_lower = text.lower()
+        for category, terms in self.healthcare_terms.items():
+            for term in terms:
+                if term in text_lower:
+                    pattern = r'(?i)([^.!?]*\b' + term + r'[^.!?]*)'
+                    matches = re.findall(pattern, text)
+                    if matches:
+                        # Clean up the policy text
+                        policy_text = matches[0].strip()
+                        # Extract just the insurance company name if possible
+                        insurance_match = re.search(r'(?i)in\s+([A-Za-z\s]+insurance)', policy_text)
+                        if insurance_match:
+                            result[category] = insurance_match.group(1).strip()
+                        else:
+                            result[category] = policy_text
+                        break
         
         # Extract diseases using improved regex
         # Look for specific disease patterns with word boundaries
-
-        
         disease_patterns = [
-            #r'(?i)(?:i am having|i have|having|have|diagnosed with|suffering from|been diagnosed with)\s+([A-Za-z\s-]+(?:diabetes|disease|syndrome|disorder|infection|illness|condition|cancer|asthma|hypertension|malaria|flu|fever|covid|tuberculosis|migraine|stroke|pneumonia|arthritis|depression|anxiety|obesity|cholera|dengue|eczema|hepatitis|leukemia|lymphoma|psoriasis|sepsis|ulcer|autism|paralysis|thyroid))\b',
+            r'(?i)(?:i am having|i have|having|have|diagnosed with|suffering from)\s+([A-Za-z\s]+(?:diabetes|disease|syndrome|disorder|infection|illness|condition|cancer|asthma)\b)',
             r'(?i)\b((?:type\s+[12]|gestational)\s+diabetes)\b',
-            r'(?i)\b([A-Za-z\s-]+(?:disease|syndrome|disorder|infection|illness|condition|cancer))\b',
-            r'(?i)\b(hypertension|diabetes|asthma|malaria|flu|fever|covid|tuberculosis|migraine|stroke|pneumonia|arthritis|depression|anxiety|obesity|cholera|dengue|eczema|hepatitis|leukemia|lymphoma|psoriasis|sepsis|ulcer|autism|paralysis|thyroid)\b'
+            r'(?i)\b([A-Za-z\s]+(?:disease|syndrome|disorder|infection|illness|condition))\b'
         ]
-
+        
         for pattern in disease_patterns:
             matches = re.search(pattern, text)
             if matches:
                 result['disease'] = matches.group(1).strip()
                 break
-
+                
         return result
-
-
-    def extract_query_intent(self, text):
-        """Extract the question or intent from the text."""
-        intents = {}
-        
-        # Check for terms and conditions questions
-        for intent_type, patterns in self.question_patterns.items():
-            for pattern in patterns:
-                if re.search(pattern, text):
-                    intents[intent_type] = True
-                    break
-        
-        return intents
 
     def extract_keywords(self, text, num_clusters=5):
         """Extract key sentences using BERT embeddings."""
@@ -164,7 +108,7 @@ class BERTKeywordExtractor:
         sentences = [s.strip() for s in sentences if s.strip()]
         
         if not sentences:
-            return {}, {}, []
+            return {}, {}
         
         # Get sentence embeddings
         embeddings = self.model.encode(sentences)
@@ -192,89 +136,28 @@ class BERTKeywordExtractor:
 
         # Extract healthcare-related terms
         domain_terms = self.extract_domain_specific_terms(processed_text)
-        
-        # Extract query intent
-        query_intent = self.extract_query_intent(processed_text)
 
         # Combine extracted information
         all_keywords = {**entities, **domain_terms}
         
-        return all_keywords, query_intent, key_sentences
+        return all_keywords, key_sentences
 
-    def process_query(self, query):
-        """Process a user query and extract all relevant information."""
-        keywords, query_intent, key_sentences = self.extract_keywords(query)
-        
-        result = {
-            "extracted_info": keywords,
-            "query_intent": query_intent,
-            "key_sentences": key_sentences
-        }
-        
-        return result
+    def process_documents(self, documents):
+        """Process multiple documents and extract healthcare information."""
+        results = []
+        for doc in documents:
+            keywords, _ = self.extract_keywords(doc)
+            results.append(keywords)
+        return results
 
-extractor = BERTKeywordExtractor()
 # Example usage
 if __name__ == "__main__":
+    extractor = BERTKeywordExtractor()
     
-    # Single string input
-    sample_query = """My name is William. I am 57 years old . I am in Kmch Hospital. 
-I have been diagnosed with flu. My policy is Starlife.
-Can you tell me the terms and conditions"""
+    sample_text = """my name is John Smith. my age is 45 years old. i am in Memorial Hospital on January 15 2023.
+    i am having Hypertension and Diabetes. my policy is HealthCare Plus"""
     
-    
-    print("\nProcessing query:", sample_query)
-    result = extractor.process_query(sample_query)
-    
-    print("\nExtracted Information:")
-    for key, value in result["extracted_info"].items():
-        print(f"  {key}: {value}")
-
-
-#     true_values = {
-#     "hospital": "kg hospital",
-#     "age": "45",
-#     "policy": "starlife",
-#     "name": "John",
-#     #"disease": ["diabetes", "hypertension"]
-# }
-
-# # Use the model to predict
-# predicted_values = extractor.extract_entities(sample_query)  # Use the method from the class instance
-
-# # Compare predictions with ground truth (use the earlier code)
-# def evaluate_extraction(true_values, keywords):
-#     """
-#     Evaluate the accuracy of the extracted information by comparing
-#     the predicted values with the true values.
-#     """
-#     correct = 0
-#     total = len(true_values)
-    
-#     for key, true_value in true_values.items():
-#         if key in predicted_values:
-#             if isinstance(true_value, list):
-#                 # Compare lists (e.g., diseases)
-#                 if set(true_value) == set(predicted_values[key]):
-#                     correct += 1
-#             else:
-#                 # Compare single values
-#                 if true_value == predicted_values[key]:
-#                     correct += 1
-    
-#     return (correct / total) * 100 if total > 0 else 0
-
-# accuracy = evaluate_extraction(true_values, result["extracted_info"])
-# print(f"Extraction accuracy: {accuracy:.2f}%")
-
-# print("\nQuery Intent:")
-# print(result['query_intent'])
-# if "terms_conditions" in result["query_intent"]:
-#     print("  User is asking about policy terms and conditions")
-# else:
-#     print("  No specific question about terms and conditions detected")
-        
-# print("\nKey Sentences:")
-# for i, sentence in enumerate(result["key_sentences"]):
-#     print(f"  {i+1}. {sentence}")
-# print("-" * 80)
+    keywords, key_sentences = extractor.extract_keywords(sample_text)
+    print("Extracted Healthcare Information:")
+    for key, value in keywords.items():
+        print(f"{key}: {value}")
